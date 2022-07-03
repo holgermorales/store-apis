@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.todo1.store</groupId>
+	<artifactId>store-apis</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>store-apis</name>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+		<maven.war.plugin.version>2.5</maven.war.plugin.version>
+		<maven.antrun.plugin.version>1.8</maven.antrun.plugin.version>
+	</properties>
+
+	<dependencies>
+		<!-- EJB API -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Resteasy -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>3.9.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<version>3.7.0.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Apache Logger -->
+		<dependency>
+			<groupId>org.jboss.logmanager</groupId>
+			<artifactId>log4j-jboss-logmanager</artifactId>
+			<version>1.1.6.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Google gson -->
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+		
+
+	
+
+		<!-- esacc core ejb -->
+		<dependency>
+			<groupId>com.todo1.store</groupId>
+			<artifactId>store-ejb</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- esacc dto -->
+		<dependency>
+			<groupId>com.todo1.store</groupId>
+			<artifactId>store-dto</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- esacc excepciones -->
+		<dependency>
+			<groupId>com.todo1.store</groupId>
+			<artifactId>store-excepcion</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- esacc utilidades -->
+		<dependency>
+			<groupId>com.todo1.store</groupId>
+			<artifactId>store-utilidades</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven.war.plugin.version}</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Dependencies>deployment.store-dto.jar,deployment.store-ejb.jar,deployment.store-excepcion.jar,deployment.store-utilidades.jar </Dependencies>
+						</manifestEntries>
+					</archive>
+					<!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>${maven.antrun.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>install</id>
+						<phase>install</phase>
+						<configuration>
+							<target>
+								<copy file="target/${project.artifactId}.war"
+									tofile="${jboss.deploy.dir}/${project.artifactId}.war" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
