@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.todo1.store.kardex;
 
@@ -18,7 +18,19 @@ import javax.ws.rs.core.Response;
 public interface ProductoRest {
 
     /**
-     * Obtiene todos los productos.
+     * @author holger.morales
+     * @history Jul 2, 2022 - 10:33:02 AM holger.morales
+     *          Versión inicial.
+     * @param param Datos del producto
+     * @return
+     */
+    @POST
+    @Path("registrar")
+    @Consumes(MediaType.APPLICATION_JSON)
+    Response registrar(String param);
+
+    /**
+     * Obtiene productos por categoría.
      *
      * @author holger.morales
      * @history Jul 2, 2022 - 10:33:02 AM holger.morales
@@ -27,8 +39,21 @@ public interface ProductoRest {
      * @return Lista de catálogo.
      */
     @POST
+    @Path("categoria")
+    @Consumes(MediaType.APPLICATION_JSON)
+    Response obtenerPorCategoria(String param);
+
+    /**
+     * Obtiene todos los productos.
+     * @author holger.morales
+     * @history Jul 2, 2022 - 10:33:02 AM holger.morales
+     *          Versión inicial.
+     * @param param
+     * @return
+     */
+    @POST
     @Path("todos")
     @Consumes(MediaType.APPLICATION_JSON)
-    Response obtenerPorGrupo(String param);
+    Response obtenerTodos(String param);
 
 }
